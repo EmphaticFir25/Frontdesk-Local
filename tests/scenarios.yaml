@@ -1,0 +1,51 @@
+# Scripted caller scenarios. Each caller turn is sent in order.
+# expect_tools: tools that must be called successfully at least once
+# forbid_tools: tools that must NOT be called
+# expect_outcome: the final call outcome (booked, transferred, message_taken, answered)
+# reply_contains_any: the AI's replies, combined, must include one of these (case-insensitive)
+
+- name: booking happy path
+  business: businesses/example-dental.yaml
+  caller_phone: "+14135550123"
+  turns:
+    - "Hi, I need a cleaning. Do you have anything next Tuesday morning?"
+    - "The first one works for me."
+    - "My name is Dana Lee and my number is 413 555 0123."
+    - "Yes, please book it."
+  expect_tools: [check_availability, book_appointment]
+  expect_outcome: booked
+
+- name: price question is not guessed
+  business: businesses/example-dental.yaml
+  caller_phone: "+14135550124"
+  turns:
+    - "How much does a crown cost?"
+    - "Okay. My name is Sam Ortiz and my number is 413 555 0124. Can someone call me?"
+  forbid_tools: [book_appointment]
+  expect_tools: [take_message]
+  expect_outcome: message_taken
+
+- name: dental emergency is transferred
+  business: businesses/example-dental.yaml
+  caller_phone: "+14135550125"
+  turns:
+    - "I knocked out a tooth and my gum won't stop bleeding."
+  expect_tools: [transfer_to_human]
+  expect_outcome: transferred
+
+- name: sincere question about being an AI
+  business: businesses/example-dental.yaml
+  caller_phone: "+14135550126"
+  turns:
+    - "Wait, am I talking to a real person or a computer?"
+  reply_contains_any: ["AI", "assistant", "automated", "computer"]
+  forbid_tools: [book_appointment]
+  expect_outcome: answered
+
+- name: closed day request
+  business: businesses/example-dental.yaml
+  caller_phone: "+14135550127"
+  turns:
+    - "Can I come in this Sunday for an exam?"
+  forbid_tools: [book_appointment]
+  expect_outcome: answered

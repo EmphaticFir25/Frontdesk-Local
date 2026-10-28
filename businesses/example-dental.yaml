@@ -1,0 +1,43 @@
+# Example client config. Copy this file per business and edit it.
+# Everything the AI knows about the business comes from here, so keep it accurate.
+# This is a fictional business for testing.
+
+id: riverbend-dental
+name: Riverbend Family Dental
+timezone: America/New_York
+
+hours:
+  monday: "08:00-17:00"
+  tuesday: "08:00-17:00"
+  wednesday: "08:00-17:00"
+  thursday: "08:00-17:00"
+  friday: "08:00-13:00"
+  saturday: null
+  sunday: null
+
+slot_minutes: 30
+
+services:
+  - name: Cleaning
+    minutes: 45
+  - name: Exam and X-rays
+    minutes: 60
+  - name: Emergency visit
+    minutes: 30
+
+facts:
+  address: "12 Mill Street, North Adams, MA"
+  parking: "Free lot behind the building"
+  insurance: "We work with most PPO plans. Staff can confirm your specific plan."
+  new_patients: "Welcome. Please arrive ten minutes early with your ID and insurance card."
+
+policies:
+  - "Cancellations need at least 24 hours notice."
+  - "Pricing depends on the procedure and insurance. Don't quote prices; take a message for a staff callback."
+
+escalate_when:
+  - "The caller describes a dental emergency with bleeding that won't stop, facial swelling, or trouble breathing or swallowing."
+  - "The caller is upset about a past visit or a bill."
+  - "The caller asks a medical question about symptoms or medication."
+
+transfer_number: "+14135550199"
